@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفائز بالكرة الذهبية</title>
+    <style>
+        body {
+            font-family: "Tajawal", sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to bottom, #1e3c72, #2a5298);
+            color: #fff;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ffcc00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #e6b800;
+            transform: scale(1.1);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: inline-block;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        footer a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>من فاز بالكرة الذهبية؟</h1>
+    <p>أدخل السنة لمعرفة الفائز:</p>
+    <input type="number" id="yearInput" placeholder="أدخل السنة">
+    <button onclick="getWinner()">اعرض الفائز</button>
+    <div class="result" id="result"></div>
+    <footer>
+        <p>تم الإنشاء بواسطة <a href="file:///C:/Users/SHADI/OneDrive/%D8%A8%D8%B1%D9%85%D8%AC%D9%87/index.html#">إياد شادي</a> © 2024</p>
+    </footer>
+
+    <script>
+        // قاعدة بيانات الفائزين بالكرة الذهبية من 1956 إلى 2023
+        const winners = {
+            2023: "ليونيل ميسي",
+            2022: "كريم بنزيما",
+            2021: "ليونيل ميسي",
+            2020: "لم تُمنح الجائزة بسبب كورونا",
+            2019: "ليونيل ميسي",
+            2018: "لوكا مودريتش",
+            2017: "كريستيانو رونالدو",
+            2016: "كريستيانو رونالدو",
+            2015: "ليونيل ميسي",
+            2014: "كريستيانو رونالدو",
+            2013: "كريستيانو رونالدو",
+            2012: "ليونيل ميسي",
+            2011: "ليونيل ميسي",
+            2010: "ليونيل ميسي",
+            2009: "ليونيل ميسي",
+            2008: "كريستيانو رونالدو",
+            2007: "كاكا",
+            2006: "فابيو كانافارو",
+            2005: "رونالدينيو",
+            2004: "أندري شيفتشينكو",
+            2003: "بافل نيدفيد",
+            2002: "رونالدو (الظاهرة)",
+            2001: "مايكل أوين",
+            2000: "لويس فيجو",
+            1999: "ريفالدو",
+            1998: "زيدان",
+            1997: "رونالدو (الظاهرة)",
+            1996: "ماتياس زامر",
+            1995: "جورج وياه",
+            1994: "خريستو ستويشكوف",
+            1993: "روبرتو باجيو",
+            1992: "ماركو فان باستن",
+            1991: "جان بيير بابان",
+            1990: "لوثار ماتيوس",
+            1989: "ماركو فان باستن",
+            1988: "ماركو فان باستن",
+            1987: "رود خوليت",
+            1986: "إيغور بيلانوف",
+            1985: "ميشيل بلاتيني",
+            1984: "ميشيل بلاتيني",
+            1983: "ميشيل بلاتيني",
+            1982: "باولو روسي",
+            1981: "كارل هاينز رومينيغه",
+            1980: "كارل هاينز رومينيغه",
+            1979: "كيفن كيغن",
+            1978: "كيفن كيغن",
+            1977: "ألان سيمونسن",
+            1976: "فرانس بيكنباور",
+            1975: "أولي هونيس",
+            1974: "يوهان كرويف",
+            1973: "يوهان كرويف",
+            1972: "فرانس بيكنباور",
+            1971: "يوهان كرويف",
+            1970: "غيرد مولر",
+            1969: "جياني ريفيرا",
+            1968: "جورج بيست",
+            1967: "فلوريان ألبرت",
+            1966: "بوبي تشارلتون",
+            1965: "يوزيبيو",
+            1964: "دينيس لو",
+            1963: "ليف ياشين",
+            1962: "جوزيه أغوستو توريس",
+            1961: "عمر سيفوري",
+            1960:"لويس سواريز",
+            1959: "ألفريدو دي ستيفانو",
+            1958: "ريموند كوبا",
+            1957: "ألفريدو دي ستيفانو",
+            1956: "ستانلي ماثيوز"
+        };
+
+        function getWinner() {
+            const year = document.getElementById("yearInput").value;
+            const resultDiv = document.getElementById("result");
+
+            if (winners[year]) {
+                resultDiv.textContent = `الفائز في سنة ${year} هو: ${winners[year]}`;
+            } else {
+                resultDiv.textContent = "عذرًا، لا توجد بيانات لهذه السنة.";
+            }
+        }
+    </script>
+
+
+</body></html>
